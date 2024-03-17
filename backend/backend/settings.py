@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-y&+bz#!cc(57vv@#ps)qhty79f*6oo)xca7waly_!ec%3r-+r0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [".vercel.app"]
 
 
 # Application definition
@@ -51,7 +51,7 @@ REST_FRAMEWORK = {
 AUTH_USER_MODEL = 'myapp.User'
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=10),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=10),
 
 }
