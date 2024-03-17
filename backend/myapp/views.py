@@ -1,4 +1,4 @@
-from .models import Event,User
+from .models import Event
 from rest_framework import generics, permissions,status
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -58,4 +58,24 @@ class EventListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Event.objects.filter(user=self.request.user)
+        return Event.objects.filter(user=self.request.user).order_by("-time")
+
+class GetAllEventsView(generics.ListAPIView):
+    serializer_class = EventSerializer
+    permission_classes = []
+
+    def get_queryset(self):
+        return Event.objects.all().order_by('-time')
+
+
+class EventLikeToggleView(generics.UpdateAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+    permission_classes = []
+
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.is_liked = not instance.is_liked
+        instance.save()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)

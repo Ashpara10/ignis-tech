@@ -1,8 +1,42 @@
 import { useNavigate } from "react-router-dom";
-import EventFeed from "../components/event-feed";
 import { LuPlus } from "react-icons/lu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Drawer from "../components/drawer";
+import { BASE_URL, Tevent, token } from "../lib/utils";
+import EventCard from "../components/event-card";
+import { useQuery } from "@tanstack/react-query";
+
+const MyEventFeed = () => {
+  // const [events, setEvents] = useState<Tevent[]>([]);
+  const { data: events, error } = useQuery({
+    queryKey: ["my-events"],
+    queryFn: async () => {
+      const resp = await fetch(`${BASE_URL}/events/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: ` Bearer ${token}`,
+        },
+      });
+      const res = await resp.json();
+      return res;
+    },
+  });
+  console.log({ events, error });
+
+  return (
+    <div className="w-full min-h-screen gap-3 my-10 px-4  grid grid-cols-4">
+      {events?.length === 0 && (
+        <span className="text-lg font-medium my-4 w-full text-center">
+          You have no Active events
+        </span>
+      )}
+      {events?.map((data: Tevent, i: number) => {
+        return <EventCard data={data} key={i} />;
+      })}
+    </div>
+  );
+};
 
 const Events = () => {
   const navigate = useNavigate();
@@ -41,7 +75,7 @@ const Events = () => {
           {open && (
             <div className="fixed bg-black/70 top-0 bottom-0 right-0 left-0 z-40 " />
           )}
-          <EventFeed />
+          <MyEventFeed />
         </>
       )}
     </div>

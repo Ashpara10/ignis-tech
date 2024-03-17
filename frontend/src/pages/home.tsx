@@ -3,7 +3,7 @@ import EventFeed from "../components/event-feed";
 
 const Home = () => {
   return (
-    <div className="mt-16">
+    <div className="mt-20">
       <EventFeed />
     </div>
   );

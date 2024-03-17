@@ -1,24 +1,14 @@
 import { useEffect, useState } from "react";
 import EventCard from "./event-card";
-
-export type Tevent = {
-  event_name: string;
-  body: string;
-  time: string;
-  location: string;
-  image: string;
-  user_id: {
-    username: string;
-  };
-  is_liked: boolean;
-};
+import { Tevent, getAllEvents } from "../lib/utils";
+import toast from "react-hot-toast";
 
 const EventFeed = () => {
   const [data, setData] = useState<Tevent[]>();
   const getData = async () => {
-    const res = await fetch("../../data.json");
-    const data = await res.json();
-    setData(data);
+    const res = await getAllEvents();
+    res?.error && toast.error(JSON.stringify(res?.error));
+    setData(res?.data as Tevent[]);
   };
   useEffect(() => {
     getData();

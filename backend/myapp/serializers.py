@@ -18,5 +18,5 @@ class UserSerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ['id', 'user', 'event_name', 'data', 'time','location','is_liked']
+        fields = ['id', 'user', 'event_name', 'data', 'time','location','is_liked','image']
         read_only_fields = ['user']

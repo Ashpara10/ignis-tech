@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { redirect } from "react-router-dom";
-
+import { Login, register } from "../lib/utils";
+import { toast } from "react-hot-toast";
 const Form = () => {
+  const [errors, setError] = useState<any>();
   const [type, setType] = useState<"login" | "register">("register");
-  const [user, setUser] = useState(() =>
+  const [user, setUser] = useState(
     type === "login"
       ? { email: "", password: "" }
       : { username: "", email: "", password: "" }
@@ -13,11 +15,40 @@ const Form = () => {
   return (
     <form
       className="form"
-      onSubmit={(e) => {
+      onSubmit={async (e) => {
         e.preventDefault();
-        console.log({ user });
-        localStorage.setItem("token", JSON.stringify(user));
-        redirect("/");
+        if (type === "register") {
+          const res = await register({
+            user: {
+              email: user?.email,
+              username: user?.username as string,
+              password: user.password,
+            },
+          });
+          if (res?.error) {
+            setError(res?.error);
+            return;
+          }
+          localStorage.setItem("token", JSON.stringify(res?.data));
+          window.location.reload();
+          toast.success("registered");
+          return;
+        } else {
+          const res = await Login({
+            user: {
+              username: user?.username as string,
+              password: user.password,
+            },
+          });
+          if (res?.error) {
+            setError(res?.error);
+            return;
+          }
+          localStorage.setItem("token", JSON.stringify(res?.data));
+          window.location.reload();
+          toast.success("Loggedin");
+          return;
+        }
       }}
     >
       <label htmlFor="">
@@ -29,7 +60,7 @@ const Form = () => {
           onChange={(e) =>
             setUser({ ...user, [e?.target?.name]: e?.target?.value })
           }
-          className="form-input"
+          className="form-input required:border-red-500"
         />
       </label>
 
@@ -66,9 +97,18 @@ const Form = () => {
       </label>
       <button
         type="submit"
-        className="w-full disabled:opacity-80 rounded-lg mt-2 bg-orange-500 text-white px-4 py-2"
+        disabled={
+          type === "register"
+            ? user?.email === "" ||
+              user?.username === "" ||
+              user?.password === ""
+            : user?.username === "" || user?.password === ""
+            ? true
+            : false
+        }
+        className="w-full disabled:opacity-70  rounded-lg mt-2 bg-orange-500 text-white px-4 py-2"
       >
-        Register
+        {type === "register" ? "Register" : "Login"}
       </button>
       {type === "register" ? (
         <span className="flex items-center justify-center gap-1">
