@@ -14,20 +14,12 @@ const Header = () => {
 
   return (
     <header className="w-full z-40 fixed top-0 bg-white border-b border-gray-200 flex items-center justify-center px-4 py-2">
-      <nav className="w-full flex items-center justify-between">
+      <nav className="w-full flex  items-center justify-between">
         <div className="box gap-x-4">
-          <span className="text-orange-600  text-3xl font-black">
+          <span className="text-orange-600  text-xl md:text-3xl font-black">
             Eventbrite
           </span>
-          <div className="box gap-x-2">
-            <input
-              type="text"
-              className="border focus-within:outline-none px-4 py-2 border-gray-200 rounded-2xl  max-w-2xl w-full"
-            />
-            <button className="rounded-full border border-gray-200 p-2">
-              <CiSearch className="size-7 " />
-            </button>
-          </div>
+
           <div className="box">
             <ul className="box gap-x-2 font-medium">
               <li
@@ -36,7 +28,7 @@ const Header = () => {
                   path.pathname === "/" && "bg-gray-300/60"
                 }`}
               >
-                Find Events
+                Global
               </li>
               <li
                 onClick={() => navigate("/events")}

@@ -25,7 +25,8 @@ const MyEventFeed = () => {
   console.log({ events, error });
 
   return (
-    <div className="w-full min-h-screen gap-3 my-10 px-4  grid grid-cols-4">
+    <div className="grid gap-3 w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-4  px-5 my-6">
+      {" "}
       {events?.length === 0 && (
         <span className="text-lg font-medium my-4 w-full text-center">
           You have no Active events
@@ -59,12 +60,12 @@ const Events = () => {
       ) : (
         <>
           <div className="w-full flex items-center px-4 justify-between">
-            <span className="text-3xl mx-2 font-bold tracking-tight">
+            <span className="text-2xl md:text-3xl mx-2 font-bold tracking-tight">
               Manage Your Events
             </span>
             <button
               onClick={() => setOpen(true)}
-              className="bg-orange-500 text-lg font-medium px-4 py-2 rounded-full text-white box gap-2"
+              className="bg-orange-500 text-normal md:text-lg font-medium px-4 py-2 rounded-full text-white box gap-2"
             >
               <LuPlus />
               Create Event
