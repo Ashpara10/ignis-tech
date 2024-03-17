@@ -1,5 +1,5 @@
 import { CiShare2, CiHeart } from "react-icons/ci";
-import { BASE_URL, Tevent, token, toogleLike } from "../lib/utils";
+import { Tevent, toogleLike } from "../lib/utils";
 import { FaHeart } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
